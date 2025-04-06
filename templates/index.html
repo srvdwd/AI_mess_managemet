@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Mess Manager</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      margin: 20px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input[type="submit"] {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #2980b9;
+      transform: scale(1.02);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #ecf0f1;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #2d3436;
+    }
+
+    strong {
+      color: #27ae60;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍽️ AI-Powered Canteen Manager</h1>
+
+    <div class="card">
+      <h2>📊 Predict Demand</h2>
+      <form method="post" action="/predict">
+        <label>Day of Week (0-6):</label>
+        <input type="number" name="day_of_week" required>
+
+        <label>Is Event (0 or 1):</label>
+        <input type="number" name="is_event" required>
+
+        <label>Past Attendance:</label>
+        <input type="number" name="past_attendance" required>
+
+        <input type="submit" value="Predict">
+      </form>
+
+      {% if prediction %}
+        <p><strong>Predicted Demand:</strong> {{ prediction }} meals</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>🍱 Suggested Meals</h2>
+      <form action="/suggest_meals">
+        <input type="submit" value="Show Meal Suggestions">
+      </form>
+
+      {% if meals %}
+        <ul>
+          {% for meal in meals %}
+            <li>{{ meal['meal'] }} <br><small>(Score: {{ meal['score']|round(2) }})</small></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>🗣️ Feedback Analysis</h2>
+      <form method="post" action="/feedback">
+        <textarea name="feedback" rows="4" placeholder="Enter your feedback..." required></textarea>
+        <input type="submit" value="Analyze Feedback">
+      </form>
+
+      {% if sentiment %}
+        <p><strong>Sentiment Polarity:</strong> {{ sentiment }}</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
