@@ -29,9 +29,6 @@ class CanteenModel:
 
         model.fit(X, y)
 
-        with open("model.pkl", "wb") as f:
-            pickle.dump(model, f)
-
         return model
 
     def _generate_meal_suggestions(self):
