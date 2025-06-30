@@ -13,7 +13,6 @@ def predict():
     day_of_week = int(request.form['day_of_week'])
     is_event = int(request.form['is_event'])
     past_attendance = int(request.form['past_attendance'])
-
     prediction = model.predict_demand(day_of_week, is_event, past_attendance)
     return render_template('index.html', prediction=prediction)
 
